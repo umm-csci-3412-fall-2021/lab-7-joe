@@ -1,6 +1,7 @@
 # Segmented-File-Server-client <!-- omit in toc -->
 
-[![Tests](../../workflows/Bats%20test/badge.svg)](../../actions?query=workflow%3A"Bats+test")
+[![Unit tests](../../workflows/Unit%20tests/badge.svg)](../../actions?query=workflow%3A"Unit+tests")
+[![Bats tests](../../workflows/Bats%20tests/badge.svg)](../../actions?query=workflow%3A"Bats+tests")
 
 The starter code and (limited) tests for the client code for the Segmented File System lab.
 
