@@ -1,0 +1,32 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
+
+// This lab has a pre-existing project layout that differs from what Gradle
+// assumes. We prefer not to reformat the project, since that would make life
+// more difficult for the graders; instead, we'll change Gradle's
+// configuration.
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+application {
+    mainClass = 'segmentedfilesystem.Main'
+}
