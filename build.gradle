@@ -2,12 +2,24 @@ plugins {
     id 'application'
 }
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+}
+
+tasks.withType(JavaCompile) {
+  // All of our source files are written in UTF-8
+  options.encoding = 'UTF-8'
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
 }
 
 // This lab has a pre-existing project layout that differs from what Gradle

@@ -8,5 +8,6 @@
         "outofmoneycom",
         "Saltzer",
         "unmarshall"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
