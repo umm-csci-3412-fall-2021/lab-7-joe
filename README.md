@@ -1,3 +1,25 @@
+# Note to the grader
+
+I've configured this project so that it builds with Gradle. But, if you want to build the project using `run_client.sh`, that will still work 🙂
+
+If you want to run the JUnit tests, run:
+
+```sh
+$ ./gradlew test
+```
+
+And if you want to run the client by itself, without starting the server, run:
+
+```sh
+$ ./gradlew run
+```
+
+or:
+
+```sh
+$ ./gradlew run --args='serverName'
+```
+
 # Segmented-File-Server-client <!-- omit in toc -->
 
 [![Unit tests](../../workflows/Unit%20tests/badge.svg)](../../actions?query=workflow%3A"Unit+tests")
