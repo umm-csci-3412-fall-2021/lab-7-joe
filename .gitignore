@@ -272,3 +272,5 @@ build
 # End of https://www.gitignore.io/api/vim,java,emacs,eclipse,intellij,visualstudiocode
 # Ignore Gradle project-specific cache directory
 .gradle
+!gradle/wrapper/gradle-wrapper.jar
+!test/lib/Segmented-File-System-server.jar
