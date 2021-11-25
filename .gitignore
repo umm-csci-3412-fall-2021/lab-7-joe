@@ -274,3 +274,8 @@ build
 .gradle
 !gradle/wrapper/gradle-wrapper.jar
 !test/lib/Segmented-File-System-server.jar
+
+# The `bats` tests create these files in the src directory.
+src/small.txt
+src/binary.jpg
+src/AsYouLikeIt.txt

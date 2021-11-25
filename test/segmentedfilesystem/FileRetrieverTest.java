@@ -3,7 +3,7 @@ package segmentedfilesystem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -62,8 +62,8 @@ public class FileRetrieverTest {
     );
 
     private static final List<OutOfMoneyPacket> FILE_3_PACKETS = List.of(
-        new OutOfMoneyHeaderPacket((byte) -127, "file3.café.résumé".getBytes(StandardCharsets.UTF_8)),
-        new OutOfMoneyDataPacket((byte) -127, new byte[0], 0, true)
+        new OutOfMoneyHeaderPacket((byte) -1, "file3.café.résumé".getBytes(StandardCharsets.UTF_8)),
+        new OutOfMoneyDataPacket((byte) -1, new byte[0], 0, true)
     );
 
     private static final List<OutOfMoneyPacket> ALL_PACKETS_IN_ORDER =
@@ -94,7 +94,6 @@ public class FileRetrieverTest {
             FILE_3_PACKETS.get(FILE_3_PACKETS.size() - 1)
         );
 
-
     @Spy
     private OutOfMoneyApiService outOfMoneyApiService;
 
@@ -106,10 +105,12 @@ public class FileRetrieverTest {
     private AutoCloseable mockitoContext;
 
     @Before
-    public void beforeEach() {
+    public void beforeEach() throws Exception {
         mockitoContext = MockitoAnnotations.openMocks(this);
 
         fileRetriever = new FileRetriever(outOfMoneyApiService, fileWriterService);
+        doNothing().when(outOfMoneyApiService).startInteraction(any(), anyInt());
+        doNothing().when(outOfMoneyApiService).endInteraction();
         doNothing().when(fileWriterService).createFileInWorkingDirectory(any());
     }
 
@@ -119,21 +120,21 @@ public class FileRetrieverTest {
     }
 
     @Test
-    public void testCanCollectPackets() {
+    public void testCanCollectPackets() throws Exception {
         setUpWithThesePackets(ALL_PACKETS_IN_ORDER);
         fileRetriever.downloadFiles(SERVER_NAME, PORT);
         verifyWroteAllThreeFiles();
     }
 
     @Test
-    public void testCanCollectPacketsOutOfOrder() {
+    public void testCanCollectPacketsOutOfOrder() throws Exception {
         setUpWithThesePackets(ALL_PACKETS_OUT_OF_ORDER);
         fileRetriever.downloadFiles(SERVER_NAME, PORT);
         verifyWroteAllThreeFiles();
     }
 
     @Test
-    public void testKeepsTryingToReadPacketsUntilAllThreeFilesAreDownloaded() {
+    public void testKeepsTryingToReadPacketsUntilAllThreeFilesAreDownloaded() throws Exception {
         setUpWithThesePackets(INCOMPLETE_PACKETS);
         assertThrows(NoMorePacketsException.class, () ->
             fileRetriever.downloadFiles(SERVER_NAME, PORT)
@@ -147,7 +148,7 @@ public class FileRetrieverTest {
      * After the `packets` list is exhausted, any further calls to `outOfMoneyApiService.getPacket()` will throw a
      * NoMorePacketsException.
      */
-    private void setUpWithThesePackets(List<OutOfMoneyPacket> packets) {
+    private void setUpWithThesePackets(List<OutOfMoneyPacket> packets) throws Exception {
         doAnswer(new Answer<OutOfMoneyPacket>() {
             // Keep track of where we are in the list.
             int indexInList = 0;
@@ -168,7 +169,7 @@ public class FileRetrieverTest {
                     throw new NoMorePacketsException();
                 }
             }
-        }).when(outOfMoneyApiService).getPacket(eq(SERVER_NAME), eq(PORT));
+        }).when(outOfMoneyApiService).getPacket();
     }
 
     private void verifyWroteAllThreeFiles() {

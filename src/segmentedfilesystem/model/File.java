@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class File {
-    private String filename;
-    public String getFilename() {
-        return filename;
+    private String name;
+    public String getName() {
+        return name;
     }
 
     private byte[] data;
@@ -15,7 +15,7 @@ public class File {
     }
 
     public File(String filename, byte[] data) {
-        this.filename = filename;
+        this.name = filename;
         this.data = data;
     }
 
@@ -27,13 +27,13 @@ public class File {
         }
 
         File other = (File) o;
-        return Objects.equals(filename, other.filename) && Arrays.equals(data, other.data);
+        return Objects.equals(name, other.getName()) && Arrays.equals(data, other.getData());
     }
 
     @Override
     public int hashCode() {
         Object[] allRelevantValues = new Object[1 + data.length];
-        allRelevantValues[0] = filename;
+        allRelevantValues[0] = name;
         for (int i = 0; i < data.length; i++) {
             allRelevantValues[i + 1] = data[i];
         }
@@ -42,6 +42,6 @@ public class File {
 
     @Override
     public String toString() {
-        return String.format("File[%s, %s]", filename, Arrays.toString(data));
+        return String.format("File[%s, %s]", name, Arrays.toString(data));
     }
 }

@@ -1,5 +1,6 @@
 package segmentedfilesystem;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import segmentedfilesystem.model.OutOfMoneyDataPacket;
@@ -25,14 +26,27 @@ public class FileRetriever {
         // A map from file IDs to partial files (which we'll append to until they're complete).
         var downloadingFiles = new HashMap<Byte, PartialFile>();
 
-        outOfMoneyApiService.sendRequest(serverName, port);
+        try {
+            outOfMoneyApiService.startInteraction(serverName, port);
+        } catch (IOException e) {
+            System.err.printf("Cannot contact %s:%d\n", serverName, port);
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         // Keep reading packets until we have all the files, and they're complete.
         while (
             downloadingFiles.size() < NUMBER_OF_FILES_EXPECTED
             || downloadingFiles.values().stream().anyMatch(pf -> !pf.isComplete())
         ) {
-            OutOfMoneyPacket packet = outOfMoneyApiService.getPacket(serverName, port);
+            OutOfMoneyPacket packet;
+            try {
+                packet = outOfMoneyApiService.getPacket();
+            } catch (IOException e) {
+                System.err.println("I/O exception when reading a packet:");
+                e.printStackTrace();
+                continue;
+            }
 
             byte fileId = packet.getFileId();
             if (!downloadingFiles.containsKey(fileId)) {

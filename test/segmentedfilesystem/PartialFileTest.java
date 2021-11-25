@@ -60,8 +60,6 @@ public class PartialFileTest {
         MISSING_FIRST_CHUNK
     );
 
-
-
     @Test
     public void testNewPartialFileIsIncomplete() {
         assertFalse(NEW_PARTIAL_FILE.isComplete());
@@ -97,14 +95,14 @@ public class PartialFileTest {
     @Test
     public void testToFileWorks() {
         File file = COMPLETE_PARTIAL_FILE.toFile();
-        assertThat(file.getFilename()).isEqualTo("the-coolest-data.txt");
+        assertThat(file.getName()).isEqualTo("the-coolest-data.txt");
         assertThat(file.getData()).containsExactly(1, 2, 3, 4, 5, 6, 7, 8, 9);
     }
 
     @Test
     public void testToFileWorksOnZeroByteLongPartialFile() {
         File file = ZERO_BYTES_LONG.toFile();
-        assertThat(file.getFilename()).isEqualTo("no-content.txt");
+        assertThat(file.getName()).isEqualTo("no-content.txt");
         assertThat(file.getData()).isEmpty();
     }
 
