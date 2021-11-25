@@ -55,7 +55,10 @@ public class FileRetriever {
 
             PartialFile partialFile = downloadingFiles.get(fileId);
             if (packet.isHeaderPacket()) {
-                addHeaderToFile(partialFile, (OutOfMoneyHeaderPacket) packet);
+                var headerPacket = (OutOfMoneyHeaderPacket) packet;
+                // Print some diagnostic output, just to make it clear that the process isn't hanging.
+                System.out.printf("Downloading file %s...\n", headerPacket.getFilename());
+                addHeaderToFile(partialFile, headerPacket);
             } else {
                 addDataToFile(partialFile, (OutOfMoneyDataPacket) packet);
             }
