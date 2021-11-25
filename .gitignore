@@ -270,3 +270,12 @@ build
 .history
 
 # End of https://www.gitignore.io/api/vim,java,emacs,eclipse,intellij,visualstudiocode
+# Ignore Gradle project-specific cache directory
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+!test/lib/Segmented-File-System-server.jar
+
+# The `bats` tests create these files in the src directory.
+src/small.txt
+src/binary.jpg
+src/AsYouLikeIt.txt

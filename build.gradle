@@ -1,0 +1,45 @@
+plugins {
+    id 'application'
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(11)
+  }
+}
+
+tasks.withType(JavaCompile) {
+  // All of our source files are written in UTF-8
+  options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation 'org.mockito:mockito-core:4.1.0'
+}
+
+// This lab has a pre-existing project layout that differs from what Gradle
+// assumes. We prefer not to reformat the project, since that would make life
+// more difficult for the graders; instead, we'll change Gradle's
+// configuration.
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+application {
+    mainClass = 'segmentedfilesystem.Main'
+}

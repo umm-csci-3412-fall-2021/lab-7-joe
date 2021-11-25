@@ -1,7 +1,7 @@
 package segmentedfilesystem;
 
 public class Main {
-    
+
     // If there's one command line argument, it is assumed to
     // be the server. If there are two, the second is assumed
     // to be the port to use.
@@ -9,8 +9,8 @@ public class Main {
         String server = "localhost";
         // CHANGE THIS DEFAULT PORT TO THE PORT NUMBER PROVIDED
         // BY THE INSTRUCTOR.
-        int port = 0;
-        
+        int port = 6014;
+
         if (args.length >= 1) {
             server = args[0];
         }
@@ -18,8 +18,7 @@ public class Main {
             port = Integer.parseInt(args[1]);
         }
 
-        FileRetriever fileRetriever = new FileRetriever(server, port);
-        fileRetriever.downloadFiles();
+        var fileRetriever = new FileRetriever(new OutOfMoneyApiService(), new FileWriterService());
+        fileRetriever.downloadFiles(server, port);
     }
-
 }
