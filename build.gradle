@@ -20,6 +20,7 @@ repositories {
 dependencies {
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation 'org.mockito:mockito-core:4.1.0'
 }
 
 // This lab has a pre-existing project layout that differs from what Gradle

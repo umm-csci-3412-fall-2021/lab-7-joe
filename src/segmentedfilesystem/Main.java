@@ -18,8 +18,7 @@ public class Main {
             port = Integer.parseInt(args[1]);
         }
 
-        FileRetriever fileRetriever = new FileRetriever(server, port);
-        fileRetriever.downloadFiles();
+        var fileRetriever = new FileRetriever(new OutOfMoneyApiService(), new FileWriterService());
+        fileRetriever.downloadFiles(server, port);
     }
-
 }
